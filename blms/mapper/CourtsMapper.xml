@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.CourtsMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Courts">
+            <id property="courtid" column="courtId" />
+            <result property="courtnumber" column="courtNumber" />
+            <result property="courttype" column="courtType" />
+            <result property="capacity" column="capacity" />
+            <result property="state" column="state" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        courtId,courtNumber,courtType,capacity,state
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from courts
+        where  courtId = #{courtid} 
+    </select>
+    <select id="selectBy" resultType="com.ysj.blms.domain.Courts">
+
+        select
+        <include refid="Base_Column_List" />
+        from courts
+        <where>
+        <if test="courtnumber!=null and courtnumber!=''">
+            courtNumber like concat ('%',#{courtnumber},'%')
+        </if>
+        <if test="courttype!=null and courttype!=''">
+            and courtType =#{courttype}
+        </if>
+            <if test="capacity != null">
+                and capacity = #{capacity}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from courts
+        where  courtId = #{courtid} 
+    </delete>
+    <insert id="insert" keyColumn="courtId" keyProperty="courtid" parameterType="com.ysj.blms.domain.Courts" useGeneratedKeys="true">
+        insert into courts
+        ( courtId,courtNumber,courtType,capacity,state)
+        values (#{courtid},#{courtnumber},#{courttype},#{capacity},#{state})
+    </insert>
+    <insert id="insertSelective" keyColumn="courtId" keyProperty="courtid" parameterType="com.ysj.blms.domain.Courts" useGeneratedKeys="true">
+        insert into courts
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="courtid != null">courtId,</if>
+                <if test="courtnumber != null">courtNumber,</if>
+                <if test="courttype != null">courtType,</if>
+                <if test="capacity != null">capacity,</if>
+                <if test="state != null">state,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="courtid != null">#{courtid},</if>
+                <if test="courtnumber != null">#{courtnumber},</if>
+                <if test="courttype != null">#{courttype},</if>
+                <if test="capacity != null">#{capacity},</if>
+                <if test="state != null">#{state},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Courts">
+        update courts
+        <set>
+                <if test="courtnumber != null">
+                    courtNumber = #{courtnumber},
+                </if>
+                <if test="courttype != null">
+                    courtType = #{courttype},
+                </if>
+                <if test="capacity != null">
+                    capacity = #{capacity},
+                </if>
+                <if test="state != null">
+                    state = #{state},
+                </if>
+        </set>
+        where   courtId = #{courtid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Courts">
+        update courts
+        set 
+            courtNumber =  #{courtnumber},
+            courtType =  #{courttype},
+            capacity =  #{capacity},
+            state =  #{state}
+        where   courtId = #{courtid} 
+    </update>
+
+    <update id="updateCourtState">
+        update courts
+        set state = #{state}
+        where courtId = #{courtid}
+    </update>
+
+    <update id="updateCourtInfo" parameterType="com.ysj.blms.domain.Courts">
+        update courts
+        set courtType = #{courttype},
+            capacity = #{capacity}
+        where courtNumber = #{courtnumber}
+    </update>
+</mapper>

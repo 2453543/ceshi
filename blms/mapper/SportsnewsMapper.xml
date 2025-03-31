@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.SportsnewsMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Sportsnews">
+            <id property="newsid" column="newsId" />
+            <result property="title" column="title" />
+            <result property="content" column="content" />
+            <result property="publishtime" column="publishTime" />
+            <result property="source" column="source" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        newsId,title,content,publishTime,source
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sportsnews
+        where  newsId = #{newsid} 
+    </select>
+    <select id="selectBy" resultType="com.ysj.blms.domain.Sportsnews">
+
+        select
+        <include refid="Base_Column_List" />
+        from sportsnews
+        <where>
+        <if test="title!=null and title!=''">
+            and title =#{title}
+        </if>
+            <if test="content != null and content!=''">
+            and content = #{content}
+        </if>
+        </where>
+
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sportsnews
+        where  newsId = #{newsid} 
+    </delete>
+    <insert id="insert" keyColumn="newsId" keyProperty="newsid" parameterType="com.ysj.blms.domain.Sportsnews" useGeneratedKeys="true">
+        insert into sportsnews
+        ( newsId,title,content,publishTime,source)
+        values (#{newsid},#{title},#{content},#{publishtime},#{source})
+    </insert>
+    <insert id="insertSelective" keyColumn="newsId" keyProperty="newsid" parameterType="com.ysj.blms.domain.Sportsnews" useGeneratedKeys="true">
+        insert into sportsnews
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="newsid != null">newsId,</if>
+                <if test="title != null">title,</if>
+                <if test="content != null">content,</if>
+                <if test="publishtime != null">publishTime,</if>
+                <if test="source != null">source,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="newsid != null">#{newsid},</if>
+                <if test="title != null">#{title},</if>
+                <if test="content != null">#{content},</if>
+                <if test="publishtime != null">#{publishtime},</if>
+                <if test="source != null">#{source},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Sportsnews">
+        update sportsnews
+        <set>
+                <if test="title != null">
+                    title = #{title},
+                </if>
+                <if test="content != null">
+                    content = #{content},
+                </if>
+                <if test="publishtime != null">
+                    publishTime = #{publishtime},
+                </if>
+                <if test="source != null">
+                    source = #{source},
+                </if>
+        </set>
+        where   newsId = #{newsid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Sportsnews">
+        update sportsnews
+        set 
+            title =  #{title},
+            content =  #{content},
+            publishTime =  #{publishtime},
+            source =  #{source}
+        where   newsId = #{newsid} 
+    </update>
+</mapper>

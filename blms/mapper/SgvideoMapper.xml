@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.SgvideoMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Sgvideo">
+            <id property="id" column="id" />
+            <result property="title" column="title" />
+            <result property="cover" column="cover" />
+            <result property="origin" column="origin" />
+            <result property="url" column="url" />
+            <result property="createtime" column="createTime" />
+            <result property="updatetime" column="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,cover,origin,url,createTime,
+        updateTime
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sgvideo
+        where  id = #{id} 
+    </select>
+    <select id="selectBy" resultType="com.ysj.blms.domain.Sgvideo">
+        select
+        <include refid="Base_Column_List" />
+        from sgvideo
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="cover != null and cover != ''">
+                and cover = #{cover}
+            </if>
+            <if test="origin != null and origin != ''">
+                and origin = #{origin}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sgvideo
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ysj.blms.domain.Sgvideo" useGeneratedKeys="true">
+        insert into sgvideo
+        ( id,title,cover,origin,url,createTime,
+        updateTime)
+        values (#{id},#{title},#{cover},#{origin},#{url},#{createtime},
+        #{updatetime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ysj.blms.domain.Sgvideo" useGeneratedKeys="true">
+        insert into sgvideo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="title != null">title,</if>
+                <if test="cover != null">cover,</if>
+                <if test="origin != null">origin,</if>
+                <if test="url != null">url,</if>
+                <if test="createtime != null">createTime,</if>
+                <if test="updatetime != null">updateTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="title != null">#{title},</if>
+                <if test="cover != null">#{cover},</if>
+                <if test="origin != null">#{origin},</if>
+                <if test="url != null">#{url},</if>
+                <if test="createtime != null">#{createtime},</if>
+                <if test="updatetime != null">#{updatetime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Sgvideo">
+        update sgvideo
+        <set>
+                <if test="title != null">
+                    title = #{title},
+                </if>
+                <if test="cover != null">
+                    cover = #{cover},
+                </if>
+                <if test="origin != null">
+                    origin = #{origin},
+                </if>
+                <if test="url != null">
+                    url = #{url},
+                </if>
+                <if test="createtime != null">
+                    createTime = #{createtime},
+                </if>
+                <if test="updatetime != null">
+                    updateTime = #{updatetime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Sgvideo">
+        update sgvideo
+        set 
+            title =  #{title},
+            cover =  #{cover},
+            origin =  #{origin},
+            url =  #{url},
+            createTime =  #{createtime},
+            updateTime =  #{updatetime}
+        where   id = #{id} 
+    </update>
+</mapper>

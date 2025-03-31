@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.EquipmentliststMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Equipmentlistst">
+            <id property="borrowingid" column="borrowingId" />
+            <result property="userid" column="userId" />
+            <result property="equipmentid" column="equipmentId" />
+            <result property="borrowdate" column="borrowDate" />
+            <result property="returndate" column="returnDate" />
+            <result property="borrowingstatus" column="borrowingStatus" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        borrowingId,userId,equipmentId,borrowDate,returnDate,borrowingStatus
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from equipmentlistst
+        where  borrowingId = #{borrowingid} 
+    </select>
+    <select id="selectBy" resultType="com.ysj.blms.domain.Equipmentlistst">
+        select
+        <include refid="Base_Column_List" />
+        from equipmentlistst
+        <where>
+            <if test="borrowingid != null and borrowingid != ''">
+                borrowingId = #{borrowingid}
+            </if>
+            <if test="userid != null and userid != ''">
+                and userId = #{userid}
+            </if>
+            <if test="equipmentid != null and equipmentid != ''">
+                and equipmentId = #{equipmentid}
+            </if>
+            <!-- 其他条件依此类推 -->
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from equipmentlistst
+        where  borrowingId = #{borrowingid} 
+    </delete>
+    <insert id="insert" keyColumn="borrowingId" keyProperty="borrowingid" parameterType="com.ysj.blms.domain.Equipmentlistst" useGeneratedKeys="true">
+        insert into equipmentlistst
+        ( borrowingId,userId,equipmentId,borrowDate,returnDate,borrowingStatus)
+        values (#{borrowingid},#{userid},#{equipmentid},#{borrowdate},#{returndate},#{borrowingstatus})
+    </insert>
+    <insert id="insertSelective" keyColumn="borrowingId" keyProperty="borrowingid" parameterType="com.ysj.blms.domain.Equipmentlistst" useGeneratedKeys="true">
+        insert into equipmentlistst
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="borrowingid != null">borrowingId,</if>
+                <if test="userid != null">userId,</if>
+                <if test="equipmentid != null">equipmentId,</if>
+                <if test="borrowdate != null">borrowDate,</if>
+                <if test="returndate != null">returnDate,</if>
+                <if test="borrowingstatus != null">borrowingStatus,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="borrowingid != null">#{borrowingid},</if>
+                <if test="userid != null">#{userid},</if>
+                <if test="equipmentid != null">#{equipmentid},</if>
+                <if test="borrowdate != null">#{borrowdate},</if>
+                <if test="returndate != null">#{returndate},</if>
+                <if test="borrowingstatus != null">#{borrowingstatus},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Equipmentlistst">
+        update equipmentlistst
+        <set>
+                <if test="userid != null">
+                    userId = #{userid},
+                </if>
+                <if test="equipmentid != null">
+                    equipmentId = #{equipmentid},
+                </if>
+                <if test="borrowdate != null">
+                    borrowDate = #{borrowdate},
+                </if>
+                <if test="returndate != null">
+                    returnDate = #{returndate},
+                </if>
+                <if test="borrowingstatus != null">
+                    borrowingStatus = #{borrowingstatus},
+                </if>
+        </set>
+        where   borrowingId = #{borrowingid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Equipmentlistst">
+        update equipmentlistst
+        set 
+            userId =  #{userid},
+            equipmentId =  #{equipmentid},
+            borrowDate =  #{borrowdate},
+            returnDate =  #{returndate},
+            borrowingStatus =  #{borrowingstatus}
+        where   borrowingId = #{borrowingid} 
+    </update>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.BasketballcourseMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Basketballcourse">
+            <id property="courseid" column="courseId" />
+            <result property="coursename" column="courseName" />
+            <result property="description" column="description" />
+            <result property="coachid" column="coachId" />
+            <result property="coachname" column="coachName" />
+            <result property="venueid" column="venueId" />
+            <result property="starttime" column="startTime" />
+            <result property="endtime" column="endTime" />
+            <result property="price" column="price" />
+            <result property="maxstudents" column="maxStudents" />
+            <result property="enrolledstudents" column="enrolledStudents" />
+            <result property="isactive" column="isActive" />
+            <result property="status" column="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        courseId,courseName,description,coachId,coachName,venueId,
+        startTime,endTime,price,maxStudents,enrolledStudents,
+        isActive,status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from basketballcourse
+        where  courseId = #{courseid} 
+    </select>
+
+    <select id="selectBy" resultType="com.ysj.blms.domain.Basketballcourse">
+        select
+        <include refid="Base_Column_List" />
+        from basketballcourse
+        <!-- 可以添加条件判断，避免查询全量数据 -->
+        <where>
+            <if test="courseid != null">
+                and courseId = #{courseid}
+            </if>
+            <!-- 可以添加更多条件 -->
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from basketballcourse
+        where  courseId = #{courseid} 
+    </delete>
+    <insert id="insert" keyColumn="courseId" keyProperty="courseid" parameterType="com.ysj.blms.domain.Basketballcourse" useGeneratedKeys="true">
+        insert into basketballcourse
+        ( courseId,courseName,description,coachId,coachName,venueId,
+        startTime,endTime,price,maxStudents,enrolledStudents,
+        isActive,status)
+        values (#{courseid},#{coursename},#{description},#{coachid},#{coachname},#{venueid},
+        #{starttime},#{endtime},#{price},#{maxstudents},#{enrolledstudents},
+        #{isactive},#{status})
+    </insert>
+    <insert id="insertSelective" keyColumn="courseId" keyProperty="courseid" parameterType="com.ysj.blms.domain.Basketballcourse" useGeneratedKeys="true">
+        insert into basketballcourse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="courseid != null">courseId,</if>
+                <if test="coursename != null">courseName,</if>
+                <if test="description != null">description,</if>
+                <if test="coachid != null">coachId,</if>
+                <if test="coachname != null">coachName,</if>
+                <if test="venueid != null">venueId,</if>
+                <if test="starttime != null">startTime,</if>
+                <if test="endtime != null">endTime,</if>
+                <if test="price != null">price,</if>
+                <if test="maxstudents != null">maxStudents,</if>
+                <if test="enrolledstudents != null">enrolledStudents,</if>
+                <if test="isactive != null">isActive,</if>
+                <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="courseid != null">#{courseid},</if>
+                <if test="coursename != null">#{coursename},</if>
+                <if test="description != null">#{description},</if>
+                <if test="coachid != null">#{coachid},</if>
+                <if test="coachname != null">#{coachname},</if>
+                <if test="venueid != null">#{venueid},</if>
+                <if test="starttime != null">#{starttime},</if>
+                <if test="endtime != null">#{endtime},</if>
+                <if test="price != null">#{price},</if>
+                <if test="maxstudents != null">#{maxstudents},</if>
+                <if test="enrolledstudents != null">#{enrolledstudents},</if>
+                <if test="isactive != null">#{isactive},</if>
+                <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Basketballcourse">
+        update basketballcourse
+        <set>
+                <if test="coursename != null">
+                    courseName = #{coursename},
+                </if>
+                <if test="description != null">
+                    description = #{description},
+                </if>
+                <if test="coachid != null">
+                    coachId = #{coachid},
+                </if>
+                <if test="coachname != null">
+                    coachName = #{coachname},
+                </if>
+                <if test="venueid != null">
+                    venueId = #{venueid},
+                </if>
+                <if test="starttime != null">
+                    startTime = #{starttime},
+                </if>
+                <if test="endtime != null">
+                    endTime = #{endtime},
+                </if>
+                <if test="price != null">
+                    price = #{price},
+                </if>
+                <if test="maxstudents != null">
+                    maxStudents = #{maxstudents},
+                </if>
+                <if test="enrolledstudents != null">
+                    enrolledStudents = #{enrolledstudents},
+                </if>
+                <if test="isactive != null">
+                    isActive = #{isactive},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+        </set>
+        where   courseId = #{courseid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Basketballcourse">
+        update basketballcourse
+        set 
+            courseName =  #{coursename},
+            description =  #{description},
+            coachId =  #{coachid},
+            coachName =  #{coachname},
+            venueId =  #{venueid},
+            startTime =  #{starttime},
+            endTime =  #{endtime},
+            price =  #{price},
+            maxStudents =  #{maxstudents},
+            enrolledStudents =  #{enrolledstudents},
+            isActive =  #{isactive},
+            status =  #{status}
+        where   courseId = #{courseid} 
+    </update>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.UsersMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Users">
+            <id property="userid" column="userId" />
+            <result property="useridname" column="userIdName" />
+            <result property="username" column="userName" />
+            <result property="phone" column="phone" />
+            <result property="email" column="email" />
+            <result property="usertype" column="userType" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        userId,userIdName,userName,phone,email,userType
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from users
+        where  userId = #{userid} 
+    </select>
+
+    <select id="selectBy" resultType="com.ysj.blms.domain.Users">
+        select
+        <include refid="Base_Column_List" />
+        from users
+        <where>
+            <if test="userid != null and userid != ''">
+                and userId = #{userid}
+            </if>
+            <if test="useridname != null and useridname != ''">
+                and userIdName = #{useridname}
+            </if>
+            <!-- 其他条件依此类推 -->
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from users
+        where  userId = #{userid} 
+    </delete>
+    <insert id="insert" keyColumn="userId" keyProperty="userid" parameterType="com.ysj.blms.domain.Users" useGeneratedKeys="true">
+        insert into users
+        ( userId,userIdName,userName,phone,email,userType)
+        values (#{userid},#{useridname},#{username},#{phone},#{email},#{usertype})
+    </insert>
+    <insert id="insertSelective" keyColumn="userId" keyProperty="userid" parameterType="com.ysj.blms.domain.Users" useGeneratedKeys="true">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="userid != null">userId,</if>
+                <if test="useridname != null">userIdName,</if>
+                <if test="username != null">userName,</if>
+                <if test="phone != null">phone,</if>
+                <if test="email != null">email,</if>
+                <if test="usertype != null">userType,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="userid != null">#{userid},</if>
+                <if test="useridname != null">#{useridname},</if>
+                <if test="username != null">#{username},</if>
+                <if test="phone != null">#{phone},</if>
+                <if test="email != null">#{email},</if>
+                <if test="usertype != null">#{usertype},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Users">
+        update users
+        <set>
+                <if test="useridname != null">
+                    userIdName = #{useridname},
+                </if>
+                <if test="username != null">
+                    userName = #{username},
+                </if>
+                <if test="phone != null">
+                    phone = #{phone},
+                </if>
+                <if test="email != null">
+                    email = #{email},
+                </if>
+                <if test="usertype != null">
+                    userType = #{usertype},
+                </if>
+        </set>
+        where   userId = #{userid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Users">
+        update users
+        set 
+            userIdName =  #{useridname},
+            userName =  #{username},
+            phone =  #{phone},
+            email =  #{email},
+            userType =  #{usertype}
+        where   userId = #{userid} 
+    </update>
+</mapper>

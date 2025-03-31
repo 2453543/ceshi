@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.BookingsMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Bookings">
+            <id property="bookingid" column="bookingId" />
+            <result property="userid" column="userId" />
+            <result property="courtnumber" column="courtNumber" />
+            <result property="bookingdate" column="bookingDate" />
+            <result property="starttime" column="startTime" />
+            <result property="endtime" column="endTime" />
+            <result property="bookingstatus" column="bookingStatus" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        bookingId,userId,courtNumber,bookingDate,startTime,endTime,
+        bookingStatus
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from bookings
+        where  bookingId = #{bookingid} 
+    </select>
+    <select id="selectBy" resultType="com.ysj.blms.domain.Bookings">
+        select
+        <include refid="Base_Column_List" />
+        from bookings
+
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from bookings
+        where  bookingId = #{bookingid} 
+    </delete>
+    <insert id="insert" keyColumn="bookingId" keyProperty="bookingid" parameterType="com.ysj.blms.domain.Bookings" useGeneratedKeys="true">
+        insert into bookings
+            ( userId, courtNumber, bookingDate, startTime, endTime, bookingStatus)
+        values (#{userid}, #{courtnumber}, #{bookingdate}, #{starttime}, #{endtime}, #{bookingstatus})
+    </insert>
+    <insert id="insertSelective" keyColumn="bookingId" keyProperty="bookingid" parameterType="com.ysj.blms.domain.Bookings" useGeneratedKeys="true">
+        insert into bookings
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="bookingid != null">bookingId,</if>
+                <if test="userid != null">userId,</if>
+                <if test="courtnumber != null">courtNumber,</if>
+                <if test="bookingdate != null">bookingDate,</if>
+                <if test="starttime != null">startTime,</if>
+                <if test="endtime != null">endTime,</if>
+                <if test="bookingstatus != null">bookingStatus,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="bookingid != null">#{bookingid},</if>
+                <if test="userid != null">#{userid},</if>
+                <if test="courtnumber != null">#{courtnumber},</if>
+                <if test="bookingdate != null">#{bookingdate},</if>
+                <if test="starttime != null">#{starttime},</if>
+                <if test="endtime != null">#{endtime},</if>
+                <if test="bookingstatus != null">#{bookingstatus},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Bookings">
+        update bookings
+        <set>
+                <if test="userid != null">
+                    userId = #{userid},
+                </if>
+                <if test="courtnumber != null">
+                    courtNumber = #{courtnumber},
+                </if>
+                <if test="bookingdate != null">
+                    bookingDate = #{bookingdate},
+                </if>
+                <if test="starttime != null">
+                    startTime = #{starttime},
+                </if>
+                <if test="endtime != null">
+                    endTime = #{endtime},
+                </if>
+                <if test="bookingstatus != null">
+                    bookingStatus = #{bookingstatus},
+                </if>
+        </set>
+        where   bookingId = #{bookingid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Bookings">
+        update bookings
+        set 
+            userId =  #{userid},
+            courtNumber =  #{courtnumber},
+            bookingDate =  #{bookingdate},
+            startTime =  #{starttime},
+            endTime =  #{endtime},
+            bookingStatus =  #{bookingstatus}
+        where   bookingId = #{bookingid} 
+    </update>
+</mapper>

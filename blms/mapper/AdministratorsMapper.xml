@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysj.blms.mapper.AdministratorsMapper">
+
+    <resultMap id="BaseResultMap" type="com.ysj.blms.domain.Administrators">
+            <id property="adminid" column="adminId" />
+            <result property="adminname" column="adminName" />
+            <result property="password" column="password" />
+            <result property="email" column="email" />
+            <result property="phonenumber" column="phoneNumber" />
+            <result property="createtime" column="createTime" />
+            <result property="lastlogintime" column="lastloginTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        adminId,adminName,password,email,phoneNumber,createTime,
+        lastloginTime
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from administrators
+        where  adminId = #{adminid}
+    </select>
+
+
+    <select id="selectBy" resultType="com.ysj.blms.domain.Announcements">
+        select
+        <include refid="Base_Column_List" />
+        from administrators
+        <where>
+            <if test="adminname!=null and adminname!=''">
+                and adminName =#{adminname}
+            </if>
+            <if test="password != null and password!=''">
+                and password = #{password}
+            </if>
+        </where>
+
+
+
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from administrators
+        where  adminId = #{adminid} 
+    </delete>
+    <insert id="insert" keyColumn="adminId" keyProperty="adminid" parameterType="com.ysj.blms.domain.Administrators" useGeneratedKeys="true">
+        insert into administrators
+        ( adminId,adminName,password,email,phoneNumber,createTime,
+        lastloginTime)
+        values (#{adminid},#{adminname},#{password},#{email},#{phonenumber},#{createtime},
+        #{lastlogintime})
+    </insert>
+    <insert id="insertSelective" keyColumn="adminId" keyProperty="adminid" parameterType="com.ysj.blms.domain.Administrators" useGeneratedKeys="true">
+        insert into administrators
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="adminid != null">adminId,</if>
+                <if test="adminname != null">adminName,</if>
+                <if test="password != null">password,</if>
+                <if test="email != null">email,</if>
+                <if test="phonenumber != null">phoneNumber,</if>
+                <if test="createtime != null">createTime,</if>
+                <if test="lastlogintime != null">lastloginTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="adminid != null">#{adminid},</if>
+                <if test="adminname != null">#{adminname},</if>
+                <if test="password != null">#{password},</if>
+                <if test="email != null">#{email},</if>
+                <if test="phonenumber != null">#{phonenumber},</if>
+                <if test="createtime != null">#{createtime},</if>
+                <if test="lastlogintime != null">#{lastlogintime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ysj.blms.domain.Administrators">
+        update administrators
+        <set>
+                <if test="adminname != null">
+                    adminName = #{adminname},
+                </if>
+                <if test="password != null">
+                    password = #{password},
+                </if>
+                <if test="email != null">
+                    email = #{email},
+                </if>
+                <if test="phonenumber != null">
+                    phoneNumber = #{phonenumber},
+                </if>
+                <if test="createtime != null">
+                    createTime = #{createtime},
+                </if>
+                <if test="lastlogintime != null">
+                    lastloginTime = #{lastlogintime},
+                </if>
+        </set>
+        where   adminId = #{adminid} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ysj.blms.domain.Administrators">
+        update administrators
+        set 
+            adminName =  #{adminname},
+            password =  #{password},
+            email =  #{email},
+            phoneNumber =  #{phonenumber},
+            createTime =  #{createtime},
+            lastloginTime =  #{lastlogintime}
+        where   adminId = #{adminid} 
+    </update>
+</mapper>
